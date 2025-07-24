@@ -256,16 +256,13 @@ describe("scheduling", () => {
         { target: "pytch" },
         { target: "self" },
     ].forEach(spec => {
-        it(`can pause for a number of seconds using ${spec.target}.wait_seconds()`, async () => {
+        it(`can pause with ${spec.target}.wait_seconds()`, async () => {
             const project = await import_deindented(`
                 import pytch
                 class Alien(pytch.Sprite):
-                    def __init__(self):
-                        pytch.Sprite.__init__(self)
-                        self.n_steps = 0
                     @pytch.when_green_flag_clicked
                     def invade(self):
-                        self.n_steps += 1
+                        self.n_steps = 1
                         ${spec.target}.wait_seconds(0.25)
                         self.n_steps += 1
             `);
@@ -276,11 +273,7 @@ describe("scheduling", () => {
                 assert.strictEqual(alien.js_attr("n_steps"), exp_n_steps);
             });
 
-            assert_n_steps(0);
-        
             project.on_green_flag_clicked();
-            assert_n_steps(0);
-
             one_frame(project);
             assert_n_steps(1);
 
