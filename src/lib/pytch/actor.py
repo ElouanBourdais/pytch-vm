@@ -250,6 +250,7 @@ class Sprite(Actor):
     def go_to_mouse_pointer(self):
         "() Move SELF to the coordinates of the mouse pointer"
         self.go_to_xy(self.mouse_x, self.mouse_y)
+        print("going to",self.mouse_x,", ",self.mouse_y)
 
     @property
     def x_position(self):
